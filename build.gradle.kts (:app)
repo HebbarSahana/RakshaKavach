@@ -1,0 +1,83 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.google.services)
+}
+
+android {
+    namespace = "com.example.kavach"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.kavach"
+        minSdk = 24
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+}
+
+// ✅ Kotlin JVM toolchain
+kotlin {
+    jvmToolchain(17)
+}
+
+dependencies {
+
+    // Compose BOM
+    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+
+    // Compose
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3.window.size)
+    implementation(libs.androidx.compose.material3.adaptive)
+    implementation(libs.androidx.compose.material3.adaptive.layout)
+    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // AI & ViewModel
+    implementation(libs.generativeai)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // Lottie
+    implementation(libs.lottie.compose)
+
+    // Debug
+    debugImplementation("androidx.compose.ui:ui-tooling")
+}
